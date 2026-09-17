@@ -1,0 +1,18 @@
+services:
+  nginx:
+    image: nginx
+    build: ./requirements/nginx
+    ports:
+      - "443:443"
+    networks:
+      - back-end
+    secrets:
+      - ssl_cert
+      - ssl_key
+networks:
+    back-end:
+secrets:
+  ssl_cert:
+    file: ../secrets/TODO.crt
+  ssl_key:
+    file: ../secrets/TODO.key 
