@@ -9,6 +9,19 @@ services:
     secrets:
       - ssl_cert
       - ssl_key
+    restart: on-failure
+  mariadb:
+    image: mariadb
+    build: ./requirements/mariadb
+    networks:
+      - back-end
+    restart: on-failure
+  wordpress:
+    image: wordpress
+    build: ./requirements/wordpress
+    networks:
+      - back-end
+    restart: on-failure
 networks:
     back-end:
 secrets:

@@ -1,3 +1,4 @@
+CONTAINERS := nginx mariadb wordpress
 all: run
 
 build:
@@ -12,8 +13,9 @@ stop:
 secrets:
 
 clean: stop
-
-fclean:
+	docker container prune
+	docker rmi $(CONTAINERS)
+fclean: stop
 
 re: fclean all
 
