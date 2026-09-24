@@ -2,10 +2,10 @@ CONTAINERS := nginx mariadb wordpress
 all: run
 
 build:
-	cd ./srcs && docker-compose build #--no-cache
+	cd ./srcs && docker-compose build --no-cache
 
 run:	secrets
-	cd ./srcs && docker-compose up
+	cd ./srcs && docker-compose up # -d ?
 
 stop:
 	cd ./srcs && docker-compose down #-v

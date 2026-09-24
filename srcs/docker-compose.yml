@@ -1,31 +1,36 @@
 services:
   nginx:
+    container_name: nginx-inception #dont do this for scaling with --scale nginx=3, but good for referencing it with a static name 
+    environment: 
+      - DOMAIN_NAME=${DOMAIN_NAME}
     image: nginx
     build: ./requirements/nginx
     ports:
       - "443:443"
     networks:
-      - back-end
-    secrets:
-      - ssl_cert
-      - ssl_key
+      - frontend
     restart: on-failure
   mariadb:
+    container_name: mariadb-inception
     image: mariadb
     build: ./requirements/mariadb
     networks:
-      - back-end
+      - backend
     restart: on-failure
   wordpress:
+    container_name: wordpress-inception
     image: wordpress
     build: ./requirements/wordpress
     networks:
-      - back-end
+      - backend
+      - frontend
     restart: on-failure
+
 networks:
-    back-end:
-secrets:
-  ssl_cert:
-    file: ../secrets/TODO.crt
-  ssl_key:
-    file: ../secrets/TODO.key 
+    backend:
+      driver: bridge
+    frontend:
+      driver: bridge
+
+#secrets:
+  
