@@ -4,7 +4,7 @@ all: run
 build:
 	cd ./srcs && docker-compose build --no-cache
 
-run:	secrets
+run: build secrets
 	cd ./srcs && docker-compose up # -d ?
 
 stop:
@@ -13,9 +13,11 @@ stop:
 secrets:
 
 clean: stop
-	docker container prune
-	docker rmi $(CONTAINERS)
+	docker stop $(CONTAINERS)
+	docker system prune
+	
 fclean: stop
+	docker rmi $(CONTAINERS)
 
 re: fclean all
 

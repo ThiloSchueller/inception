@@ -13,10 +13,16 @@ services:
   mariadb:
     container_name: mariadb-inception
     image: mariadb
+    environment:
+      - MARIADB_WP_USER=${MARIADB_WP_USER}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
     build: ./requirements/mariadb
     networks:
       - backend
     restart: on-failure
+    secrets:
+      - mariadb_root_pw
+      - mariadb_wp_user_pw
   wordpress:
     container_name: wordpress-inception
     image: wordpress
@@ -32,5 +38,9 @@ networks:
     frontend:
       driver: bridge
 
-#secrets:
+secrets:
+  mariadb_root_pw:
+    file: ../secrets/mariadb_root_pw.txt
+  mariadb_wp_user_pw:
+    file: ../secrets/mariadb_wp_user_pw.txt
   

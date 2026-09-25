@@ -5,6 +5,7 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/*
 
 COPY ./tools/entrypoint.sh /entrypoint.sh
+COPY ./conf/default.conf /etc/mysql/mariadb.conf.d/default.cnf
 
 EXPOSE 3306
 
