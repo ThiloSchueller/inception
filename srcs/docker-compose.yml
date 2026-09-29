@@ -23,6 +23,8 @@ services:
     secrets:
       - mariadb_root_pw
       - mariadb_wp_user_pw
+    volumes:
+      - mariadb_volume:/var/lib/mysql
   wordpress:
     container_name: wordpress-inception
     image: wordpress
@@ -31,7 +33,11 @@ services:
       - backend
       - frontend
     restart: on-failure
-
+    secrets:
+      - mariadb_wp_user_pw
+      - wordpress_admin_pw
+      - wordpress_user_pw
+    env_file: .env
 networks:
     backend:
       driver: bridge
@@ -43,4 +49,23 @@ secrets:
     file: ../secrets/mariadb_root_pw.txt
   mariadb_wp_user_pw:
     file: ../secrets/mariadb_wp_user_pw.txt
+  wordpress_admin_pw:
+    file: ../secrets/wordpress_admin_pw.txt
+  wordpress_user_pw:
+    file: ../secrets/wordpress_user_pw.txt
   
+volumes:
+  mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER_LOGIN}/data/db
+  wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/{USER_LOGIN}/data/wp
+
+    

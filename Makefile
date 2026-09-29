@@ -2,6 +2,8 @@ CONTAINERS := nginx mariadb wordpress
 all: run
 
 build:
+	mkdir -p /home/${USER_LOGIN}/data/db
+	mkdir -p /home/${USER_LOGIN}/data/wp
 	cd ./srcs && docker-compose build --no-cache
 
 run: build secrets
