@@ -1,4 +1,4 @@
-FROM deabian:bookworm
+FROM debian:bookworm
 
 RUN apt-get update && apt-get install -y \
     php8.2 \
@@ -23,4 +23,6 @@ RUN chmod +x /entrypoint.sh
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
    && chmod +x /usr/local/bin/wp
 
-ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 9000
+
+ENTRYPOINT ["/entrypoint.sh"]

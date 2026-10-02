@@ -9,7 +9,11 @@ services:
       - "443:443"
     networks:
       - frontend
+    volumes:
+      - wordpress_volume:/var/www/html
     restart: on-failure
+    depends_on:
+      - wordpress
   mariadb:
     container_name: mariadb-inception
     image: mariadb
@@ -25,6 +29,11 @@ services:
       - mariadb_wp_user_pw
     volumes:
       - mariadb_volume:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -u root -p\"$(cat /run/secrets/mariadb_root_pw)\" || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
   wordpress:
     container_name: wordpress-inception
     image: wordpress
@@ -38,6 +47,11 @@ services:
       - wordpress_admin_pw
       - wordpress_user_pw
     env_file: .env
+    volumes:
+      - wordpress_volume:/var/www/html
+    depends_on:
+      mariadb:
+        condition: service_healthy
 networks:
     backend:
       driver: bridge
@@ -66,6 +80,6 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/{USER_LOGIN}/data/wp
+      device: /home/${USER_LOGIN}/data/wp
 
     
