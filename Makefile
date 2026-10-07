@@ -22,6 +22,7 @@ down:
 status:
 	docker container ls
 	docker volume ls
+	docker network ls
 	docker image ls
 
 secrets:
