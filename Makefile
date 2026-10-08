@@ -38,9 +38,10 @@ clean: down
 	-docker rmi $(CONTAINERS)
 	
 fclean: clean
-	rm -rf ./secrets
-	rm -rf /home/${USER_LOGIN}/data/db
-	rm -rf /home/${USER_LOGIN}/data/wp
+	sudo rm -rf ./secrets
+	sudo rm -rf /home/${USER_LOGIN}/data/db
+	sudo rm -rf /home/${USER_LOGIN}/data/wp
+	sudo rm -rf /home/${USER_LOGIN}/data
 
 re: fclean all
 
